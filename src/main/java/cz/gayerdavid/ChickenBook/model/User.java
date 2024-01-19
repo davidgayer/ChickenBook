@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "chicken-user")
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
