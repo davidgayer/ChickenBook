@@ -44,8 +44,7 @@ public class User {
     @Column(name = "bio")
     private String bio;
 
-    @Column(name = "profile_picture")
-    private Byte[] profilePicture;
+    
 
     
 }
