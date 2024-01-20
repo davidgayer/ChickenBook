@@ -9,6 +9,7 @@ import cz.gayerdavid.ChickenBook.exception.UserNotFoundException;
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @AllArgsConstructor
 @Service
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public User getUser(Long id) {
+    public User getUser(@NonNull Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
@@ -28,20 +29,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
-    public User saveUser(User user) {
-        // TODO Auto-generated method stub
-        return null;
+    public User saveUser(@NonNull User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long id) {
-        // TODO Auto-generated method stub
-
+    public void deleteUser(@NonNull Long id) {
+        userRepository.deleteById(id);
     }
 
 }
