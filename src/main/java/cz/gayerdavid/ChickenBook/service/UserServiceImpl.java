@@ -5,9 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import cz.gayerdavid.ChickenBook.model.User;
+import cz.gayerdavid.ChickenBook.repository.UserRepository;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
+
+    UserRepository userRepository;
 
     @Override
     public User getUser(Long id) {
