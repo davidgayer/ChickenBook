@@ -60,7 +60,7 @@ public class User {
     private List<User> friends;
 
     @Column(name = "posts")
-    @OneToMany(mappedBy = "chicken-user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
 
     
