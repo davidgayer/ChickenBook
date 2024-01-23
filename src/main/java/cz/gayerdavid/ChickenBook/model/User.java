@@ -3,6 +3,8 @@ package cz.gayerdavid.ChickenBook.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,6 +61,7 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<User> friends;
 
+    @JsonIgnore
     @Column(name = "posts")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
