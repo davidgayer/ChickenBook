@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,10 +33,10 @@ public class Post {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "post-content")
+    @Column(name = "post_content")
     private String content;
 
-    @Column(name = "image-url")
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Column(name = "timestamp")
@@ -46,6 +47,7 @@ public class Post {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
