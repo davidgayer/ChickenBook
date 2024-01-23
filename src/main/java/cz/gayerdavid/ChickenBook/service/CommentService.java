@@ -7,7 +7,7 @@ import cz.gayerdavid.ChickenBook.model.Post;
 
 public interface CommentService {
 
-    Comment getComment(Long postId);
+    Comment getComment(Long commentId);
     List<Comment> getAllPostComments(Long postId);
     Post saveComment(Post post, Long postId, Long userId);
     void deleteComment(Long postId);

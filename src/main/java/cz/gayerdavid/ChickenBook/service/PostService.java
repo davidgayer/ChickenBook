@@ -6,10 +6,10 @@ import cz.gayerdavid.ChickenBook.model.Post;
 
 public interface PostService {
 
-    Post getPost(Long id);
+    Post getPost(Long postId);
     List<Post> getAllPosts();
     List<Post> getAllUserPosts(Long userId);
     Post savePost(Post post, Long userId);
-    void deletePost(Long Id);
+    void deletePost(Long postId);
     
 }

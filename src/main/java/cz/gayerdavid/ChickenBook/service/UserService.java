@@ -5,8 +5,8 @@ import java.util.List;
 import cz.gayerdavid.ChickenBook.model.User;
 
 public interface UserService {
-    User getUser(Long id);
+    User getUser(Long userId);
     User saveUser(User user);
-    void deleteUser(Long id);
+    void deleteUser(Long userId);
     List<User> getAllUsers();
 }
