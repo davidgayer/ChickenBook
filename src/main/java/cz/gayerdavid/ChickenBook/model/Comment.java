@@ -44,6 +44,8 @@ public class Comment {
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
+
+    
     @PrePersist
     protected void onCreate() {
         timestamp = LocalDateTime.now();
