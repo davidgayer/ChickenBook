@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     UserRepository userRepository;
 
     @Override
-    public Comment getComment(@NonNull Long commentId) {
+    public Comment getComment(@NonNull Long postId, @NonNull Long commentId) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (comment.isPresent()) {
             return comment.get();
@@ -58,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(@NonNull Long commentId) {
+    public void deleteComment(@NonNull Long PostId, @NonNull Long commentId) {
         commentRepository.deleteById(commentId);
     }
 
