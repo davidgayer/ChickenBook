@@ -67,6 +67,7 @@ public class User {
     private List<Post> posts;
     
     @JsonIgnore
+    @Column(name = "comments")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
