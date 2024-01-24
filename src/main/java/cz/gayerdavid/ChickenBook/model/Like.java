@@ -13,15 +13,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "like")
+@Table(name = "post_like")
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long Id;
 
     @Column(name = "timestamp")
