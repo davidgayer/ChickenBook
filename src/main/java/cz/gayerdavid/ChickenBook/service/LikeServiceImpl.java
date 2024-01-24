@@ -25,12 +25,17 @@ public class LikeServiceImpl implements LikeService {
     UserRepository userRepository;
 
     @Override
+    public Like getLike(@NonNull Long likeId) {
+        return likeRepository.findById(likeId).get();
+    }
+
+    @Override
     public List<Like> getAllPostLikes(Long postId) {
         return likeRepository.findAllByPostId(postId);
     }
 
     @Override
-    public Like saveLike(@NonNull Like like,@NonNull Long postId, @NonNull Long userId) {
+    public Like saveLike(@NonNull Like like, @NonNull Long postId, @NonNull Long userId) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             like.setPost(post.get());
@@ -45,5 +50,10 @@ public class LikeServiceImpl implements LikeService {
         }
         return likeRepository.save(like);
     }
-    
+
+    @Override
+    public void deleteLike(@NonNull Long likeId) {
+        likeRepository.deleteById(likeId);
+    }
+
 }

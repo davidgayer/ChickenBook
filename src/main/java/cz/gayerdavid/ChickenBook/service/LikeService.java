@@ -6,8 +6,12 @@ import cz.gayerdavid.ChickenBook.model.Like;
 
 public interface LikeService {
 
+    Like getLike(Long likeId);
+
     List<Like> getAllPostLikes(Long postId);
 
-    Like saveLike(Like like, Long postId, Long userId);  
+    Like saveLike(Like like, Long postId, Long userId); 
+    
+    void deleteLike(Long likeId);
     
 }
