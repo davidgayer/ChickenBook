@@ -25,7 +25,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "chicken_user")
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class User {
