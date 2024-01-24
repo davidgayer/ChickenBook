@@ -18,6 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "post")
 @RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Post {
@@ -45,17 +47,14 @@ public class Post {
     @JsonFormat(pattern = "dd/MM/yyyy, HH:mm:ss")
     private LocalDateTime timestamp;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @NonNull
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @NonNull
     @JsonIgnore
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Like> likes; 
