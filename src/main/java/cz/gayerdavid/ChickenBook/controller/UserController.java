@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping("{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {

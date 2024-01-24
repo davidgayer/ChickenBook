@@ -14,16 +14,16 @@ import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.repository.CommentRepository;
 import cz.gayerdavid.ChickenBook.repository.PostRepository;
 import cz.gayerdavid.ChickenBook.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    CommentRepository commentRepository;
-    PostRepository postRepository;
-    UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Comment getComment(@NonNull Long postId, @NonNull Long commentId) {
@@ -36,12 +36,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllPostComments(Long postId) {
+    public List<Comment> getAllPostComments(@NonNull Long postId) {
         return commentRepository.findAllByPostId(postId);
     }
 
     @Override
-    public Comment saveComment(@ NonNull Comment comment, @NonNull Long postId, @NonNull Long userId) {
+    public Comment saveComment(@NonNull Comment comment, @NonNull Long postId, @NonNull Long userId) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             comment.setPost(post.get());

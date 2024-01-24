@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import cz.gayerdavid.ChickenBook.exception.UserNotFoundException;
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public User getUser(@NonNull Long id) {

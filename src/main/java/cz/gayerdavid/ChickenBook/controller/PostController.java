@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cz.gayerdavid.ChickenBook.model.Post;
 import cz.gayerdavid.ChickenBook.service.PostService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/post")
 public class PostController {
 
-    PostService postService;
+    private final PostService postService;
 
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPost(@PathVariable Long postId) {

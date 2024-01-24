@@ -10,7 +10,7 @@ public interface LikeService {
 
     List<Like> getAllPostLikes(Long postId);
 
-    Like saveLike(Like like, Long postId, Long userId); 
+    Like saveLike(Long postId, Long userId); 
     
     void deleteLike(Long likeId);
     

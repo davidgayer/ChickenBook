@@ -20,9 +20,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService {
 
-    LikeRepository likeRepository;
-    PostRepository postRepository;
-    UserRepository userRepository;
+    private final LikeRepository likeRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Like getLike(@NonNull Long likeId) {
@@ -30,12 +30,13 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public List<Like> getAllPostLikes(Long postId) {
+    public List<Like> getAllPostLikes(@NonNull Long postId) {
         return likeRepository.findAllByPostId(postId);
     }
 
     @Override
-    public Like saveLike(@NonNull Like like, @NonNull Long postId, @NonNull Long userId) {
+    public Like saveLike(@NonNull Long postId, @NonNull Long userId) {
+        Like like = new Like();
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             like.setPost(post.get());
@@ -48,6 +49,7 @@ public class LikeServiceImpl implements LikeService {
         } else {
             throw new UserNotFoundException(userId);
         }
+        System.out.println("Received Like Request: " + like);
         return likeRepository.save(like);
     }
 

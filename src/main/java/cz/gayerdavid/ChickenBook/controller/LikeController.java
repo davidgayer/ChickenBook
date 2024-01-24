@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class LikeController {
 
-    LikeService likeService;
+    private final LikeService likeService;
 
     @GetMapping("/{likeId}")
     public ResponseEntity<Like> getLike(@PathVariable Long likeId) {
@@ -40,9 +39,9 @@ public class LikeController {
     }
 
     @PostMapping("/post/{postId}/user/{userId}")
-    public ResponseEntity<Like> saveLike(@RequestBody Like like, @PathVariable Long postId, @PathVariable Long userId) {
+    public ResponseEntity<Like> saveLike(@PathVariable Long postId, @PathVariable Long userId) {
         
-        return new ResponseEntity<>(likeService.saveLike(like, postId, userId), HttpStatus.CREATED);
+        return new ResponseEntity<>(likeService.saveLike(postId, userId), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{likeId}")
