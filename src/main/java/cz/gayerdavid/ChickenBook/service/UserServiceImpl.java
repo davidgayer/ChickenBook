@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(@NonNull User user) {
+    public User registerUser(@NonNull User user) {
         return userRepository.save(user);
     }
 
