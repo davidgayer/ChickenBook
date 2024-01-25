@@ -1,10 +1,12 @@
 package cz.gayerdavid.ChickenBook.controller;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,16 +35,20 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-        
+
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
-        if (registeredUser != null) {
-            return new ResponseEntity<>("User successfuly registered", HttpStatus.CREATED);
+    public ResponseEntity<?> registerUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors()
+            .stream()
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.toList());
+            return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>("Failed to registe user", HttpStatus.BAD_REQUEST);
+            userService.registerUser(user);
+            return new ResponseEntity<>("User successfuly registered", HttpStatus.CREATED);
         }
         
     }
@@ -52,5 +59,4 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    
 }
