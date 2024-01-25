@@ -16,6 +16,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -35,14 +38,19 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "Name is required.")
     @NonNull
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotBlank(message = "Email is required.")
+    @Email(message = "Please provide a valid email adress.")
     @NonNull
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,}$", 
+            message = "Password must contain at least 8 characters, including letters and numbers")
     @NonNull
     @Column(name = "password", nullable = false)
     private String password;
@@ -73,9 +81,5 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
-    private List<Message> receivedMessages;
-
-    
-
-    
+    private List<Message> receivedMessages;    
 }
