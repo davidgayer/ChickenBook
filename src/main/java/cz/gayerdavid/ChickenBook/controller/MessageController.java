@@ -30,7 +30,7 @@ public class MessageController {
     }
 
     @GetMapping("/inbox/user/{userId}")
-    public ResponseEntity<List<Message>> getAllUserMessages(Long userId) {
+    public ResponseEntity<List<Message>> getAllUserMessages(@PathVariable Long userId) {
         return new ResponseEntity<>(messageService.getAllUserMessages(userId), HttpStatus.OK);
     }
 
