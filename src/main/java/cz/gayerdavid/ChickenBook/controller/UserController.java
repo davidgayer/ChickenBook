@@ -1,6 +1,7 @@
 package cz.gayerdavid.ChickenBook.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,15 @@ public class UserController {
         
     }
 
-    @PostMapping()
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        User registeredUser = userService.registerUser(user);
+        if (registeredUser != null) {
+            return new ResponseEntity<>("User successfuly registered", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to registe user", HttpStatus.BAD_REQUEST);
+        }
+        
     }
 
     @DeleteMapping("/{id}")
