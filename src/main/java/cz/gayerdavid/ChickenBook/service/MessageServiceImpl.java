@@ -26,8 +26,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getAllUserMessages(Long userId) {
-        return messageRepository.findAllByReceiverId(userId);
+    public List<Message> getAllUserMessages(@NonNull Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return user.get().getReceivedMessages();
+        } else {
+            throw new UserNotFoundException(userId);
+        }
     }
 
     @Override
