@@ -8,6 +8,6 @@ import cz.gayerdavid.ChickenBook.model.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findAllByUserId(Long userId);
+    List<Message> findAllByReceiverId(Long userId);
     
 }
