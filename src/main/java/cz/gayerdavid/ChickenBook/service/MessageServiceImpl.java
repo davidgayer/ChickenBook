@@ -27,7 +27,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getAllUserMessages(Long userId) {
-        return messageRepository.findAllByUserId(userId);
+        return messageRepository.findAllByReceiverId(userId);
     }
 
     @Override
