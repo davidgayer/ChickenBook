@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("message")
@@ -30,8 +31,13 @@ public class MessageController {
     }
 
     @GetMapping("/inbox/user/{userId}")
-    public ResponseEntity<List<Message>> getAllUserMessages(@PathVariable Long userId) {
-        return new ResponseEntity<>(messageService.getAllUserMessages(userId), HttpStatus.OK);
+    public ResponseEntity<List<Message>> getInboxMessages(@PathVariable Long userId) {
+        return new ResponseEntity<>(messageService.getUserInboxMessages(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/outbox/user/{userId}")
+    public ResponseEntity<List<Message>> getOutboxMessages(@PathVariable Long userId) {
+        return new ResponseEntity<>(messageService.getUserOutboxMessages(userId), HttpStatus.OK);
     }
 
     @PostMapping("/sender/{senderId}/receiver/{receiverId}")
