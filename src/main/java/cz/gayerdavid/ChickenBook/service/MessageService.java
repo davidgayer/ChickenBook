@@ -8,7 +8,9 @@ public interface MessageService {
 
     Message getMessage(Long messageId);
 
-    List<Message> getAllUserMessages(Long userId);
+    List<Message> getUserInboxMessages(Long userId);
+
+    List<Message> getUserOutboxMessages(Long userId);
 
     Message sendMessage(Message message, Long senderId, Long receiverId);
 

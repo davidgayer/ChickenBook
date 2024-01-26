@@ -26,9 +26,15 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getAllUserMessages(@NonNull Long userId) {
+    public List<Message> getUserInboxMessages(@NonNull Long userId) {
         Optional<User> user = userRepository.findById(userId);
         return unwrapEntity(user, userId, User.class).getReceivedMessages();
+    }
+
+    @Override
+    public List<Message> getUserOutboxMessages(@NonNull Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return unwrapEntity(user, userId, User.class).getSendedMessages();
     }
 
     @Override
