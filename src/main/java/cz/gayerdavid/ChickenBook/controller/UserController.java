@@ -1,12 +1,9 @@
 package cz.gayerdavid.ChickenBook.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,17 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors()
-            .stream()
-            .map(DefaultMessageSourceResolvable::getDefaultMessage)
-            .collect(Collectors.toList());
-            return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
-        } else {
-            userService.registerUser(user);
-            return new ResponseEntity<>("User successfuly registered", HttpStatus.CREATED);
-        }
+    public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
+        return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
+       
         
     }
 
