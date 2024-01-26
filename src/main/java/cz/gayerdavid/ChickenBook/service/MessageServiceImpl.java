@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import cz.gayerdavid.ChickenBook.exception.UserNotFoundException;
+import cz.gayerdavid.ChickenBook.exception.EntityNotFoundException;
 import cz.gayerdavid.ChickenBook.model.Message;
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.repository.MessageRepository;
@@ -28,28 +28,23 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<Message> getAllUserMessages(@NonNull Long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            return user.get().getReceivedMessages();
-        } else {
-            throw new UserNotFoundException(userId);
-        }
+        return unwrapEntity(user, userId, User.class).getReceivedMessages();
     }
 
     @Override
     public Message sendMessage(Message message, @NonNull Long senderId, @NonNull Long receiverId) {
         Optional<User> sender = userRepository.findById(senderId);
-        if (sender.isPresent()) {
-            message.setSender(sender.get());
-        } else {
-            throw new UserNotFoundException(senderId);
-        }
+        message.setSender(unwrapEntity(sender, senderId, User.class));
         Optional<User> receiver = userRepository.findById(receiverId);
-        if (receiver.isPresent()) {
-            message.setReceiver(receiver.get());
-        } else {
-            throw new UserNotFoundException(receiverId);
-        }
+        message.setReceiver(unwrapEntity(receiver, receiverId, User.class));
 
         return messageRepository.save(message);
+    }
+
+    private <T> T unwrapEntity(Optional<T> entity, Long id, Class<T> entityType) {
+        if (entity.isPresent())
+            return entity.get();
+        else
+            throw new EntityNotFoundException(id, entityType);
     }
 }

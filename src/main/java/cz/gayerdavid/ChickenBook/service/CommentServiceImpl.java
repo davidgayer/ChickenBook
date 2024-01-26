@@ -5,9 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import cz.gayerdavid.ChickenBook.exception.CommentNotFoundException;
-import cz.gayerdavid.ChickenBook.exception.PostNotFoundException;
-import cz.gayerdavid.ChickenBook.exception.UserNotFoundException;
+import cz.gayerdavid.ChickenBook.exception.EntityNotFoundException;
 import cz.gayerdavid.ChickenBook.model.Comment;
 import cz.gayerdavid.ChickenBook.model.Post;
 import cz.gayerdavid.ChickenBook.model.User;
@@ -28,11 +26,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment getComment(@NonNull Long postId, @NonNull Long commentId) {
         Optional<Comment> comment = commentRepository.findById(commentId);
-        if (comment.isPresent()) {
-            return comment.get();
-        } else {
-            throw new CommentNotFoundException(commentId);
-        }
+        return unwrapEntity(comment, commentId, Comment.class);
     }
 
     @Override
@@ -43,17 +37,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment saveComment(@NonNull Comment comment, @NonNull Long postId, @NonNull Long userId) {
         Optional<Post> post = postRepository.findById(postId);
-        if (post.isPresent()) {
-            comment.setPost(post.get());
-        } else {
-            throw new PostNotFoundException(postId);
-        }
+        comment.setPost(unwrapEntity(post, postId, Post.class));
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            comment.setUser(user.get());
-        } else {
-            throw new UserNotFoundException(userId);
-        }
+        comment.setUser(unwrapEntity(user, userId, User.class));
         return commentRepository.save(comment);
     }
 
@@ -61,5 +47,14 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(@NonNull Long PostId, @NonNull Long commentId) {
         commentRepository.deleteById(commentId);
     }
+
+    private <T> T unwrapEntity(Optional<T> entity, Long id, Class<T> entityType) {
+        if (entity.isPresent())
+            return entity.get();
+        else
+            throw new EntityNotFoundException(id, entityType);
+    }
+
+    
 
 }

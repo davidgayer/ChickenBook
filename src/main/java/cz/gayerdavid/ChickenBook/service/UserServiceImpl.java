@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(@NonNull Long id) {
         Optional<User> user = userRepository.findById(id);
-        return unwrapUser(user, id);
+        return unwrapEntity(user, id, User.class);
     }
 
     @Override
@@ -38,9 +38,11 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    static User unwrapUser(Optional<User> entity, Long id) {
-        if (entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException(id, User.class);
+    private <T> T unwrapEntity(Optional<T> entity, Long id, Class<T> entityType) {
+        if (entity.isPresent())
+            return entity.get();
+        else
+            throw new EntityNotFoundException(id, entityType);
     }
 
 }
