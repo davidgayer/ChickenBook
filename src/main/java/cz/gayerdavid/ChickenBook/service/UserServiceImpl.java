@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import cz.gayerdavid.ChickenBook.exception.UserNotFoundException;
+import cz.gayerdavid.ChickenBook.exception.EntityNotFoundException;
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.repository.UserRepository;
 import lombok.NonNull;
@@ -20,11 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(@NonNull Long id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new UserNotFoundException(id);
-        }
+        return unwrapUser(user, id);
     }
 
     @Override
@@ -40,6 +36,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(@NonNull Long id) {
         userRepository.deleteById(id);
+    }
+
+    static User unwrapUser(Optional<User> entity, Long id) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException(id, User.class);
     }
 
 }
