@@ -82,4 +82,8 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Message> receivedMessages;    
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Message> sendedMessages;  
 }
