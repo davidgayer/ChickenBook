@@ -3,6 +3,7 @@ package cz.gayerdavid.ChickenBook.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cz.gayerdavid.ChickenBook.exception.EntityNotFoundException;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User getUser(@NonNull Long id) {
