@@ -2,6 +2,7 @@ package cz.gayerdavid.ChickenBook.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,9 +19,9 @@ public class SecurityConfig {
         http
                 .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Allows frame on h2 console view
                 .csrf(csrf -> csrf.disable()) // cross site request forgery (disabled because of use of JWT token)
-                .authorizeHttpRequests(auth -> auth // All http request needs to be authenticated
+                .authorizeHttpRequests(auth -> auth // Handles which path are authenticated and how.
                         .requestMatchers("/h2/**").permitAll() // Permit's access on path "/h2/**"
-                        .requestMatchers("/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll() //Permits acces on registration path saved at SecurityConstants
                         .anyRequest().authenticated()) // any other request, except the ones noted at requestMatchers
                                                        // nedds to be authenticated
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Preventing
