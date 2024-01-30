@@ -1,4 +1,4 @@
-package cz.gayerdavid.ChickenBook.Security;
+package cz.gayerdavid.ChickenBook.security;
 
 public class SecurityConstants {
     public static final String SECRET_KEY = "ax67:ajLKIZ541a214;&ahpj";
