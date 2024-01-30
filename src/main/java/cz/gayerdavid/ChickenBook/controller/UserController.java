@@ -36,11 +36,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
+    public ResponseEntity<HttpStatus> registerUser(@RequestBody @Valid User user) {
         userService.registerUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
-       
-        
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<HttpStatus> loginUser(@RequestBody User user) {
+        return null;
     }
 
     @DeleteMapping("/{id}")
