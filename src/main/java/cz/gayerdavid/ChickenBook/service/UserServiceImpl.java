@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cz.gayerdavid.ChickenBook.exception.EntityNotFoundException;
+import cz.gayerdavid.ChickenBook.exception.WrongPasswordFormatException;
 import cz.gayerdavid.ChickenBook.model.User;
 import cz.gayerdavid.ChickenBook.repository.UserRepository;
 import lombok.NonNull;
@@ -32,8 +33,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(@NonNull User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        String rawPassword = user.getPassword();
+        if (!validatePassword(rawPassword)) {
+            throw new WrongPasswordFormatException();
+        }
+        String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
         return userRepository.save(user);
+        
     }
 
     @Override
@@ -46,6 +53,10 @@ public class UserServiceImpl implements UserService {
             return entity.get();
         else
             throw new EntityNotFoundException(id, entityType);
+    }
+
+    private boolean validatePassword(String password) {
+        return (password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,}$"));
     }
 
 }
