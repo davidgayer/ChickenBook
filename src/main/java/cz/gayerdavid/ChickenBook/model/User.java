@@ -1,6 +1,5 @@
 package cz.gayerdavid.ChickenBook.model;
 
-
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,9 +46,6 @@ public class User {
     @NonNull
     @Column(name = "email", nullable = false)
     private String email;
-
-    //TODO: Create Validation controll class for checking user password
-    @NotBlank(message = "Password cannot be blank")
     @NonNull
     @Column(name = "password", nullable = false)
     private String password;
@@ -62,17 +58,14 @@ public class User {
 
     @Column(name = "friends")
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-    name = "user_friends",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    @JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<User> friends;
 
     @JsonIgnore
     @Column(name = "posts")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
-    
+
     @JsonIgnore
     @Column(name = "comments")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -80,9 +73,9 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
-    private List<Message> receivedMessages;    
+    private List<Message> receivedMessages;
 
     @JsonIgnore
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
-    private List<Message> sendedMessages;  
+    private List<Message> sendedMessages;
 }
