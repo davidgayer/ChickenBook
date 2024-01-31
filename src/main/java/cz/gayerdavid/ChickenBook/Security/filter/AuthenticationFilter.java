@@ -44,7 +44,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write("Success");
         response.getWriter().flush();
-        System.out.println("GOOD WORK");
     }
 
     @Override
@@ -53,7 +52,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("Wrong password");
         response.getWriter().flush();
-        System.out.println("THIS IS BAD");
     }
 
 }
