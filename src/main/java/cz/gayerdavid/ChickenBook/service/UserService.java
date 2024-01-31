@@ -6,6 +6,7 @@ import cz.gayerdavid.ChickenBook.model.User;
 
 public interface UserService {
     User getUser(Long userId);
+    User getUser(String email);
     User registerUser(User user);
     void deleteUser(Long userId);
     List<User> getAllUsers();
