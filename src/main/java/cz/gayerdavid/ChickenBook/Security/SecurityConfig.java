@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import cz.gayerdavid.ChickenBook.security.filter.AuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -21,6 +23,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        authenticationFilter.setFilterProcessesUrl("/authenticate"); //Set on which path authenticationFilter works
 
         http
                 .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Allows frame on h2 console view
@@ -30,12 +34,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll() //Permits acces on registration path saved at SecurityConstants
                         .anyRequest().authenticated()) // any other request, except the ones noted at requestMatchers
                                                        // nedds to be authenticated
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Preventing
+                .addFilter(authenticationFilter)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Preventing
                                                                                                               // of
                                                                                                               // creating
                                                                                                               // Http
                                                                                                               // session
-                .httpBasic(Customizer.withDefaults());
 
         return http.build();
 
