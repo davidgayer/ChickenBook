@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import cz.gayerdavid.ChickenBook.security.filter.AuthenticationFilter;
 import cz.gayerdavid.ChickenBook.security.filter.ExceptionHandlerFilter;
+import cz.gayerdavid.ChickenBook.security.filter.JWTAuthorizationFilter;
 import cz.gayerdavid.ChickenBook.security.manager.CustomAuthenticationManager;
 import lombok.RequiredArgsConstructor;
 
@@ -41,6 +42,7 @@ public class SecurityConfig {
                 .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class) // First filter checking for
                                                                                            // exceptions
                 .addFilter(authenticationFilter) // This filter handles authentication of user
+                .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Preventing
                                                                                                                // of
                                                                                                                // creating
