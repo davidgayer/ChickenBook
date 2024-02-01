@@ -25,7 +25,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-                String header = request.getHeader("Authentication"); // Takes header from request
+                String header = request.getHeader("Authorization"); // Takes header from request
                 if (header == null || !header.startsWith(SecurityConstants.BEARER)) { // Checks if header is null, if so, request coming from registration and exit JWT Filter
                     filterChain.doFilter(request, response);
                     return;
