@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import cz.gayerdavid.ChickenBook.exception.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,6 +26,10 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter { // used once 
                                                       // Found
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().write("User with this email doesn't exists in our database.");
+            response.getWriter().flush();
+        } catch (JWTVerificationException exception) { //If security token is not valid
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("JWT is not valid.");
             response.getWriter().flush();
         } catch (RuntimeException exception) { // if other Runtime exception is catched response with 400 Bad Request
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
